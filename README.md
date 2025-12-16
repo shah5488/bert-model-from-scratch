@@ -64,6 +64,8 @@ The goal is **concept clarity**, not performance. Conceptual clarity gets lost i
 (Simple diagram or explanation)
 
 ## How to run
+```text
 pip install -r requirements.txt
 python training/train.py
+```
 
