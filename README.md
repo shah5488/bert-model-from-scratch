@@ -68,13 +68,13 @@ The goal is **concept clarity**, not performance. Conceptual clarity gets lost i
 ## Architecture Overview
 ```text
 Simple diagram
-```
-                        ┌───────────────────────┐
-                        │       Raw Text        │
-                        │  (sentences, docs)   │
-                        └───────────┬──────────┘
-                                    │
-                                    ▼
+
+                ┌───────────────────────┐
+                │       Raw Text        │
+                │  (sentences, docs)   │
+                └───────────┬──────────┘        
+                            │
+                            V
         ┌─────────────────────────────────────────┐
         │              Tokenizer                  │
         │                                         │
@@ -82,18 +82,18 @@ Simple diagram
         │  (split text)        (subwords)         │
         │                                         │
         │  Adds: [CLS] [SEP] [PAD]                │
-        └───────────┬─────────────────────────────┘
-                    │
-                    ▼
+        └──────────────────┬──────────────────────┘
+                           │
+                           V
         ┌─────────────────────────────────────────┐
         │        Model Input Representation       │
         │                                         │
         │  input_ids                              │
         │  attention_mask                         │
         │  token_type_ids                         │
-        └───────────┬─────────────────────────────┘
-                    │
-                    ▼
+        └─────────────────┬───────────────────────┘
+                          │
+                          V
         ┌─────────────────────────────────────────┐
         │             Embedding Layer             │
         │                                         │
@@ -104,38 +104,38 @@ Simple diagram
         │  (Sum + LayerNorm + Dropout)            │
         └───────────┬─────────────────────────────┘
                     │
-                    ▼
+                    V
         ┌─────────────────────────────────────────┐
         │        Transformer Encoder Stack        │
         │                                         │
-        │  ┌───────────────────────────────────┐ │
-        │  │  Self-Attention (Multi-Head)       │ │
-        │  │  Feed Forward Network               │ │
-        │  │  Residual + LayerNorm               │ │
-        │  └───────────────────────────────────┘ │
+        │  ┌───────────────────────────────────┐  │
+        │  │  Self-Attention (Multi-Head)      │  │
+        │  │  Feed Forward Network             │  │
+        │  │  Residual + LayerNorm             │  │
+        │  └───────────────────────────────────┘  │
         │                 × N layers              │
         └───────────┬─────────────────────────────┘
                     │
-                    ▼
+                    V
         ┌─────────────────────────────────────────┐
         │        Contextual Representations       │
         │                                         │
         │  Token-level embeddings                 │
         │  CLS embedding (sequence summary)       │
-        └───────────┬─────────────────────────────┘
+        └───────────────┬─────────────────────────│
+                        │
+        ┌───────────────┴──────────────────┐
+        V                                  V
+┌─────────────────────────┐   ┌────────────────────────┐
+│  Pretraining            │   │  Downstream Training   │
+│                         │   │  (Classification)      │
+│  MLM Head               │   │                        │
+│  NSP Head               │   │  CLS → Linear → Softmax│
+└─────────────────────────┘   └────────────────────────┘
                     │
-        ┌───────────┴───────────┐
-        ▼                       ▼
-┌──────────────────┐   ┌────────────────────────┐
-│  Pretraining     │   │  Downstream Training   │
-│                  │   │  (Classification)      │
-│  MLM Head        │   │                        │
-│  NSP Head        │   │  CLS → Linear → Softmax│
-└──────────────────┘   └────────────────────────┘
-                    │
-                    ▼
+                    V
         ┌─────────────────────────────────────────┐
-        │          Inference & Analysis            │
+        │          Inference & Analysis           │
         │                                         │
         │  Predictions                            │
         │  Attention inspection                   │
