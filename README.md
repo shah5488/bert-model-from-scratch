@@ -61,7 +61,7 @@ The goal is **concept clarity**, not performance. Conceptual clarity gets lost i
 - Not meant to replace pretrained BERT
 
 ## Architecture Overview
-(Simple diagram or explanation)
+Simple diagram or explanation
 
 ## How to run
 ```bash
