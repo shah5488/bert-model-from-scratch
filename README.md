@@ -5,43 +5,48 @@ bert-from-scratch/
 ├── requirements.txt
 │
 ├── data/
-│   ├── sample_text.txt
-│   └── README.md
+│   ├── processed
+│   ├── saw_texts
+│   ├── load_text_dataset.py
 │
 ├── tokenizer/
 │   ├── __init__.py
-│   ├── basic_tokenizer.py
-│   ├── wordpiece.py
-│   └── README.md
+│   ├── inspect_token_func.py
+│   ├── inspect_tokenization.py
+│   ├── wordpiece_tokenizer.py
 │
 ├── model/
 │   ├── __init__.py
-│   ├── embeddings.py
-│   ├── attention.py
-│   ├── transformer_block.py
-│   ├── bert.py
-│   └── README.md
+│   ├── bert_embeddings.py
+│   ├── bert_model.py
+│   ├── compare_hf_vs_scratch.py
+│   ├── inspect_attention_maps.py
+│   ├── inspect_bert_embeddings_layer.py
+│   ├── inspect_scratch_attention.py
+│   ├── self_attention.py
+│   ├── transformer_layer.py
 │
 ├── pretraining/
 │   ├── __init__.py
-│   ├── mlm.py
-│   ├── nsp.py
-│   ├── dataset.py
-│   └── README.md
+│   ├── mlm_dataset.py
+│   ├── mlm_masking.py
+│   ├── mlm_pretraining_step.py
+│   ├── pretrain_bert.py
 │
 ├── training/
-│   ├── train.py
-│   ├── trainer.py
-│   └── README.md
+│   ├── bert_scratch_classifier.py
+│   ├── classification_dataset.py
+│   ├── simple_bert_classifier.py
+│   ├── train_classifier.py
 │
 ├── inference/
 │   ├── predict.py
-│   └── README.md
+│   ├── inspect_hidden_states.py
 │
 └── notebooks/
-    ├── 01_tokenizer_demo.ipynb
-    ├── 02_attention_visualization.ipynb
-    └── 03_training_demo.ipynb
+    ├── 001_token_flow.ipynb
+    ├── 002_attention_visualization.ipynb
+    └── 003_cls_evolution.ipynb
 ```
 
 
