@@ -1,5 +1,5 @@
-bert-from-scratch/
 ```text
+bert-from-scratch/
 │
 ├── README.md
 ├── requirements.txt
