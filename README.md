@@ -1,4 +1,5 @@
 bert-from-scratch/
+```text
 │
 ├── README.md
 ├── requirements.txt
@@ -41,6 +42,7 @@ bert-from-scratch/
     ├── 01_tokenizer_demo.ipynb
     ├── 02_attention_visualization.ipynb
     └── 03_training_demo.ipynb
+```
 
 
 This repository explains and implements **BERT from scratch** using PyTorch.
