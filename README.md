@@ -66,7 +66,83 @@ The goal is **concept clarity**, not performance. Conceptual clarity gets lost i
 - Not meant to replace pretrained BERT
 
 ## Architecture Overview
-Simple diagram or explanation
+```text
+Simple diagram
+```
+                        ┌───────────────────────┐
+                        │       Raw Text        │
+                        │  (sentences, docs)   │
+                        └───────────┬──────────┘
+                                    │
+                                    ▼
+        ┌─────────────────────────────────────────┐
+        │              Tokenizer                  │
+        │                                         │
+        │  Basic Tokenizer  →  WordPiece          │
+        │  (split text)        (subwords)         │
+        │                                         │
+        │  Adds: [CLS] [SEP] [PAD]                │
+        └───────────┬─────────────────────────────┘
+                    │
+                    ▼
+        ┌─────────────────────────────────────────┐
+        │        Model Input Representation       │
+        │                                         │
+        │  input_ids                              │
+        │  attention_mask                         │
+        │  token_type_ids                         │
+        └───────────┬─────────────────────────────┘
+                    │
+                    ▼
+        ┌─────────────────────────────────────────┐
+        │             Embedding Layer             │
+        │                                         │
+        │  Token Embeddings                       │
+        │  Position Embeddings                    │
+        │  Segment Embeddings                     │
+        │                                         │
+        │  (Sum + LayerNorm + Dropout)            │
+        └───────────┬─────────────────────────────┘
+                    │
+                    ▼
+        ┌─────────────────────────────────────────┐
+        │        Transformer Encoder Stack        │
+        │                                         │
+        │  ┌───────────────────────────────────┐ │
+        │  │  Self-Attention (Multi-Head)       │ │
+        │  │  Feed Forward Network               │ │
+        │  │  Residual + LayerNorm               │ │
+        │  └───────────────────────────────────┘ │
+        │                 × N layers              │
+        └───────────┬─────────────────────────────┘
+                    │
+                    ▼
+        ┌─────────────────────────────────────────┐
+        │        Contextual Representations       │
+        │                                         │
+        │  Token-level embeddings                 │
+        │  CLS embedding (sequence summary)       │
+        └───────────┬─────────────────────────────┘
+                    │
+        ┌───────────┴───────────┐
+        ▼                       ▼
+┌──────────────────┐   ┌────────────────────────┐
+│  Pretraining     │   │  Downstream Training   │
+│                  │   │  (Classification)      │
+│  MLM Head        │   │                        │
+│  NSP Head        │   │  CLS → Linear → Softmax│
+└──────────────────┘   └────────────────────────┘
+                    │
+                    ▼
+        ┌─────────────────────────────────────────┐
+        │          Inference & Analysis            │
+        │                                         │
+        │  Predictions                            │
+        │  Attention inspection                   │
+        │  CLS evolution analysis                 │
+        └─────────────────────────────────────────┘
+```
+
 
 ## How to run
 ```bash
