@@ -48,6 +48,12 @@ inputs = tokenizer(
     return_tensors="pt"
 )
 
+
+print(f'inputs tensor keys are \n {inputs.keys()}')
+
+print(f'inputs tensor is \n {inputs}')
+
+
 # ------------------------------
 # Model & forward
 # ------------------------------
